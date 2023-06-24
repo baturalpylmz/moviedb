@@ -1,0 +1,80 @@
+.movie-detail-page{
+  width: 100%;
+  padding: 0;
+  margin:0;
+  position: relative;
+  top: 0;
+
+  .info-section{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    
+    .yazi-section{
+      height: 14vh;
+      width: 100%;
+      background-color: black;
+      padding: 0px;
+      margin: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .yazi{
+        margin: 0;
+        color: white;
+        padding: 30px;
+      }
+    }
+
+    .back-image-section{
+      width: 100%;
+      height: 70vh;
+      position: absolute;
+      top: 14vh;
+      display: block;
+      z-index: 1;
+    }
+  
+    .img-section{
+      width: 100%;
+      height: 68vh; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      float: left;
+      z-index: 1;
+      .movie-img{
+        width: 22%; 
+        border-radius: 50%;
+        box-shadow: 20px 90px 500px white;
+      }  
+    }
+  
+    .site-statistic-demo-card {
+      width: 100%;
+      padding: 30px;
+      float: left;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .kart{
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .alt{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
+}
+
+

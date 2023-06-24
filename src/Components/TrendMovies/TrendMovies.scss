@@ -1,0 +1,33 @@
+.trends-section{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    float: left;
+    background-color: black;
+
+    .cards-section{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+
+        .card{
+            width: 18%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: black;
+            padding-bottom: 30px;
+            cursor: pointer;
+
+            .poster-img{
+                width: 40%;
+            }
+        }
+    }
+}
