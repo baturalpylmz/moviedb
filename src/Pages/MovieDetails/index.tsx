@@ -6,7 +6,7 @@ import { IMAGE_SIZE, IMAGE_URL } from '../../Hooks/Urls';
 import Icon, { LikeOutlined, DollarOutlined, WarningOutlined, SafetyOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import './MovieDetail.scss'
 import Cards from './Cards';
-import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
+import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon'
 
 const HeartSvg = () => (
     <svg width="2em" height="2em" fill="currentColor" viewBox="0 0 1024 1024">
