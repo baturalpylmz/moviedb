@@ -8,6 +8,20 @@
     float: left;
     background-color: black;
 
+    .top-section{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        .show-all-btn{
+            width: 10%;
+            border-radius: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+    }
+
     .cards-section{
         display: flex;
         align-items: center;
@@ -26,7 +40,7 @@
             cursor: pointer;
 
             .poster-img{
-                width: 40%;
+                width: 70%;
             }
         }
     }

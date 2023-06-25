@@ -16,7 +16,7 @@ const Cards:React.FC<Props> = ({baslik,icon,yazi,suffix}) => {
                   title={baslik}
                   value={yazi}
                   precision={2}
-                  valueStyle={{ color: '#3f8600' ,backgroundColor:'white'}}
+                  valueStyle={{ color: 'white' ,backgroundColor:'black', fontWeight:'bold'}}
                   prefix={icon}
                   suffix={suffix}
                 />
