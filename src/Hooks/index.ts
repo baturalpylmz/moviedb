@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SEARCH_URL,DETAIL_MOVIE_URL,API_KEY,TRENDING_MOVIE } from './Urls';
+import { SEARCH_URL,DETAIL_MOVIE_URL,API_KEY,TRENDING_MOVIE,VIDEOS } from './Urls';
 
 export const searchAxiosMovie =(name:string)=>{
     return axios.get(`${SEARCH_URL+"&query="+name}`)
@@ -16,8 +16,12 @@ export const getAxiosMovieCredits =(id:string)=>{
     .then(res=>{ return res.data })
 }
 
-
 export const getAxiosTrendMovies = (time_window:string) =>{
     return axios.get(`${TRENDING_MOVIE + time_window + '?' + API_KEY}`)
     .then(res=>{ return res.data.results })
 }
+
+export const getAxiosVideos = (id:string) =>{
+    return axios.get(`${VIDEOS+id+'/videos?'+API_KEY}`)
+    .then(res =>{ return res.data.results })
+} 

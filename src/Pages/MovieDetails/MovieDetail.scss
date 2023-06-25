@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: column;
     float: left;
+    background-color: black;
     
     .yazi-section{
       height: 14vh;
@@ -63,17 +64,26 @@
       flex-wrap: wrap;
     }
 
-    .kart{
-      width: 20%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .alt{
+    .baslik-video{
+      width: 100%;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
+      color: white;
+      background-color: black;
     }
+
+    .videos-section{
+      width: 100%;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      background-color: black;
+    }
+
+
   }
 }
 
