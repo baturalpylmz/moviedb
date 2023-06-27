@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getAxiosMovieDetails, getAxiosMovieCredits, getAxiosVideos } from '../../Hooks'
+import { getAxiosMovieDetails, getAxiosMovieCredits, getAxiosVideos, getAxiosRecommendations } from '../../Hooks'
 import { Detail, Credits, Videos } from '../../Types/Type';
 import { IMAGE_SIZE, IMAGE_URL } from '../../Hooks/Urls';
 import Icon, { LikeOutlined, DollarOutlined, WarningOutlined, SafetyOutlined, VideoCameraOutlined } from '@ant-design/icons';
@@ -8,6 +8,7 @@ import './MovieDetail.scss'
 import Cards from './Cards';
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon'
 import VideoSection from './VideoSection';
+import Divs from '../../Components/Divs';
 
 const HeartSvg = () => (
     <svg width="2em" height="2em" fill="currentColor" viewBox="0 0 1024 1024">
@@ -25,6 +26,7 @@ const MovieDetails: React.FC = () => {
     const [credits, setCredits] = useState<Credits>()
     const [isClicked, setIsClicked] = useState<Boolean>(false)
     const [videos,setVideos] = useState<Videos[]>([])
+    const [recommendations,setRecommendations] = useState<Detail[]>([])
 
     const clickOnFav = () => {
         setIsClicked(!isClicked)
@@ -59,6 +61,13 @@ const MovieDetails: React.FC = () => {
             }).catch(error=> {
                 console.log(error);
             })
+
+            getAxiosRecommendations(params.id).then(data =>{
+                setRecommendations(data)
+            }).catch(error=>{
+                console.log(error);
+            })
+
         }
     }, [params.id])
 
@@ -102,6 +111,15 @@ const MovieDetails: React.FC = () => {
                         // videos.map(e=>{
                         //    return <VideoSection data={e} key={e.id}/>
                         // })
+                    }
+                </div>
+
+                <h2 className="baslik-recommendations">RECOMMENDATIONS</h2>
+                <div className="recommendations-section">
+                    {
+                        recommendations.map(e=>{
+                            return <Divs data={e} key={e.id}/>
+                        })
                     }
                 </div>
             </div>
