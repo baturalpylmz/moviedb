@@ -25,3 +25,8 @@ export const getAxiosVideos = (id:string) =>{
     return axios.get(`${VIDEOS+id+'/videos?'+API_KEY}`)
     .then(res =>{ return res.data.results })
 } 
+
+export const getAxiosRecommendations = (id:string) =>{
+    return axios.get(`${VIDEOS+id+'/recommendations?'+API_KEY}`)
+    .then(res =>{ return res.data.results })
+} 

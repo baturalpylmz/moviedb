@@ -1,0 +1,14 @@
+.card{
+    width: 18%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: black;
+    padding-bottom: 30px;
+    cursor: pointer;
+
+    .poster-img{
+        width: 70%;
+    }
+}
