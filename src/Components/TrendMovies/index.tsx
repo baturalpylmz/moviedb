@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { getAxiosTrendMovies } from '../../Hooks'
 import { Detail } from '../../Types/Type'
-import { IMAGE_SIZE, IMAGE_URL } from '../../Hooks/Urls'
+import { IMAGE_SIZE_500, IMAGE_URL } from '../../Hooks/Urls'
 import './TrendMovies.scss'
 import { useNavigate } from 'react-router-dom'
 import { PlusOutlined } from '@ant-design/icons'
+import NoPosterImg from '../../Images/no-poster-image/no-poster.jpg'
+import { Button } from 'antd'
 
 interface Props{
     time_window:string
@@ -27,7 +29,7 @@ const TrendMovies:React.FC<Props> = ({time_window}) => {
             setTrends(res);
             setNewTrends([res[0],res[1],res[2],res[3],res[4]])
         }).catch(error=>{
-            console.log(error);
+            console.log(error,'BEŞ');
         });
     }, [time_window])
     
@@ -35,8 +37,8 @@ const TrendMovies:React.FC<Props> = ({time_window}) => {
   return (
     <div className='trends-section'>
         <div className='top-section'>
-            <h1 style={{color:'white'}}>{`${'TREND MOVIES OF THE '+ time_window.toUpperCase()}`}</h1>   
-            <button onClick={()=>navigate(`/trends/${time_window}`)} className='show-all-btn'>{<PlusOutlined />}Tümünü Görüntüle</button>  
+            <h1 style={{color:'white'}}>{`${time_window==='day' ? 'GÜNÜN TREND FİLMLERİ' : 'HAFTANIN TREND FİLMLERİ'}`}</h1>   
+            <Button onClick={()=>navigate(`/trends/${time_window}`)} className='show-all-btn'>{<PlusOutlined />}Tümünü Görüntüle</Button>  
         </div> 
         <div className='cards-section'> 
         {
@@ -44,7 +46,7 @@ const TrendMovies:React.FC<Props> = ({time_window}) => {
             newTrends.map(e=>{
                 return( 
                     <div key={e.id} className='card' onClick={()=>clickedCard(e)}> 
-                        <img className='poster-img' src={e.poster_path !== undefined ? IMAGE_URL + IMAGE_SIZE + e.poster_path : ''} alt='poster-img'/>
+                        <img className='poster-img' src={e.poster_path ? IMAGE_URL + IMAGE_SIZE_500 + e.poster_path : NoPosterImg} alt='poster-img'/>
                         <h3 style={{color:'white',fontSize:'15px'}}>{e.original_title}</h3>
                     </div>
                 )})

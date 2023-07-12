@@ -4,6 +4,11 @@ export interface Liste{
     poster_path:string
 } 
 
+export interface Genres{
+    id:number,
+    name:string
+}
+
 export interface Detail{
     adult:boolean,
     backdrop_path:string,
@@ -18,8 +23,11 @@ export interface Detail{
     status:string,
     tagline:string,
     title:string,
-    vote_average:number
-  }
+    vote_average:number,
+    genres:Genres[],
+    release_date:string,
+    runtime:number
+}
 
 export interface cast{
     adult:boolean,
@@ -67,4 +75,9 @@ export interface Videos{
     site:string,
     size:number,
     type:string
+}
+
+export interface GenresInterface {
+    id:number,
+    name:string
 }

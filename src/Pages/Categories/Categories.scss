@@ -1,51 +1,47 @@
-.trends-section{
-    position: relative;
+.category-page{
+    width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    flex-direction: column;
-    float: left;
     background-color: black;
+    color:white;
 
-    .top-section{
+    .category-page-top-section{
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        .show-all-btn{
-            width: 10%;
-            border-radius: 20px;
-            padding: 5px;
-            background-color: red;
-            color: white;
-            border: 1px solid red;
-            margin-left: 15px;
-            &:hover{
-                border: 1px solid white;
-            }
+        .category-page-top-section-left{
+            width: 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .category-page-top-section-right{
+            width: 90%;
+            display: flex;
+            justify-content: center;
         }
     }
 
-    .cards-section{
+    .card-section-of-categorized-movies{
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
-        width: 100%;
 
-        .card{
+        .card-of-categorized-movie{
             width: 18%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            background-color: black;
-            padding-bottom: 30px;
             cursor: pointer;
 
-            .poster-img{
+            .categorized-img{
                 width: 70%;
             }
         }

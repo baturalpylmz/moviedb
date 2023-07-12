@@ -1,0 +1,35 @@
+.navbar-section{
+    width: 100%;
+    background-color: black;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 25px groove red;
+    
+
+    .tabs{
+        width: 30%;
+        display: flex;
+        justify-content: space-evenly;
+
+        .tab{
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tab:hover{
+            color: red;
+            opacity: 0.8;
+        }
+    }
+
+    .log-in-btn{
+        &:hover{
+            color: red;
+            border: 1px solid red;
+        }
+    }
+}
