@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Router, useNavigate, useParams } from 'react-router-dom'
 import { getAxiosMovieDetails, getAxiosMovieCredits, getAxiosVideos, getAxiosRecommendations } from '../../Hooks'
 import { Detail, Credits, Videos } from '../../Types/Type';
-import { IMAGE_SIZE, IMAGE_URL } from '../../Hooks/Urls';
-import Icon, { LikeOutlined, DollarOutlined, WarningOutlined, SafetyOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { IMAGE_SIZE_500, IMAGE_SIZE_1920, IMAGE_URL } from '../../Hooks/Urls';
+import Icon, { HomeOutlined, ArrowLeftOutlined, LikeOutlined, DollarOutlined, WarningOutlined, SafetyOutlined, VideoCameraOutlined, PlusOutlined } from '@ant-design/icons';
 import './MovieDetail.scss'
 import Cards from './Cards';
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon'
 import VideoSection from './VideoSection';
 import Divs from '../../Components/Divs';
+import NoPosterImg from '../../Images/no-poster-image/no-poster.jpg'
+import { Button, FloatButton } from 'antd';
+import { Tooltip } from 'react-tooltip'
 
 const HeartSvg = () => (
     <svg width="2em" height="2em" fill="currentColor" viewBox="0 0 1024 1024">
@@ -21,13 +24,15 @@ const HeartIcon = (props: Partial<CustomIconComponentProps>) => (
 );
 
 const MovieDetails: React.FC = () => {
+    const navigate = useNavigate()
     const params = useParams()
     const [details, setDetails] = useState<Detail>()
     const [credits, setCredits] = useState<Credits>()
     const [isClicked, setIsClicked] = useState<Boolean>(false)
-    const [videos,setVideos] = useState<Videos[]>([])
-    const [recommendations,setRecommendations] = useState<Detail[]>([])
-
+    const [videos, setVideos] = useState<Videos[]>([])
+    const [recommendations, setRecommendations] = useState<Detail[]>([])
+    
+    const [newRecommendations, setNewRecommendations] = useState<Detail[]>([])
     const clickOnFav = () => {
         setIsClicked(!isClicked)
         if (isClicked) {
@@ -35,8 +40,12 @@ const MovieDetails: React.FC = () => {
         }
     }
 
+    const sendGenreId = (id: number) => {
+        navigate(`/category/${id}`)
+    }
+
     const myStyledBackground = {
-        backgroundImage: `url(${IMAGE_URL + IMAGE_SIZE + details?.backdrop_path})`,
+        backgroundImage: `url(${IMAGE_URL + IMAGE_SIZE_1920 + details?.backdrop_path})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         filter: 'blur(2px)'
@@ -44,50 +53,116 @@ const MovieDetails: React.FC = () => {
 
     useEffect(() => {
         if (params.id !== undefined) {
+
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
             getAxiosMovieDetails(params.id).then(data => {
                 setDetails(data)
             }).catch(error => {
-                console.error(error);
+                console.error(error, 'BİR');
             });
 
             getAxiosMovieCredits(params.id).then(data => {
                 setCredits(data)
             }).catch(error => {
-                console.error(error);
+                console.error(error, 'İKİ');
             });
 
-            getAxiosVideos(params.id).then(data =>{
+            getAxiosVideos(params.id).then(data => {
                 setVideos(data)
-            }).catch(error=> {
-                console.log(error);
+            }).catch(error => {
+                console.log(error, 'ÜÇ');
             })
 
-            getAxiosRecommendations(params.id).then(data =>{
-                setRecommendations(data)
-            }).catch(error=>{
-                console.log(error);
+            getAxiosRecommendations(params.id).then(data => {
+                let existedData:Detail[]=[]
+                if (data.length !== 0){
+                    
+                    data.map((el:Detail,index:number)=>{
+                        if(index<5){
+                            existedData.push(el)
+                        }
+                    })
+                    setNewRecommendations(existedData)
+                }
+                else
+                    setNewRecommendations(data)
+                }).catch(error => {
+                console.log(error, 'DÖRT');
             })
-
         }
     }, [params.id])
 
+    const timeFormatter = (mins: number) => {
+        let minute = mins
+        let hour = Math.floor(minute / 60)
+        minute = minute - hour * 60
+        return hour + 'sa ' + minute + 'dk'
+    }
+
 
     return (
+
         <div className='movie-detail-page'>
             <div className='info-section'>
                 <div className='yazi-section'>
-                    <h1 className='yazi'>{details?.original_title && details.original_title}</h1>
+                    <div>
+                        <ArrowLeftOutlined data-tooltip-id='back-tooltip'
+                            data-tooltip-content="Önceki Sayfaya Dön"
+                            onClick={() => { navigate(-1) }} style={{ color: 'white', fontSize: '40px', cursor: 'pointer', paddingRight: '50px' }} />
+                        <Tooltip id="back-tooltip" />
+                        <HomeOutlined data-tooltip-id='home-tooltip'
+                            data-tooltip-content="Anasayfaya Dön"
+                            onClick={() => { navigate('/') }} style={{ color: 'white', fontSize: '40px', cursor: 'pointer' }} />
+                        <Tooltip id="home-tooltip" />
+                    </div>
+                    <h1 className='yazi'>{details?.original_title && details.original_title + ' (' + details.release_date.split('-')[0] + ')'}</h1>
                     <div onClick={clickOnFav}>
                         {
-                            <HeartIcon style={{ color: isClicked ? 'red' : 'white', opacity: isClicked ? '' : '0.6', cursor: 'pointer' }} />
+                            <div>
+                                <HeartIcon data-tooltip-id='fav-tooltip'
+                                    data-tooltip-content="Favorilere Ekle"
+                                    style={{ color: isClicked ? 'red' : 'white', opacity: isClicked ? '' : '0.6', cursor: 'pointer', userSelect: 'none' }} />
+                                <Tooltip id='fav-tooltip' />
+                            </div>
                         }
                     </div>
                 </div>
 
                 <div className='back-image-section' style={myStyledBackground}></div>
                 <div className='img-section'>
-                    <img alt='movie-img' src={`${details?.poster_path !== undefined ? IMAGE_URL + IMAGE_SIZE + details?.poster_path : ''}`}
-                        className='movie-img' />
+                    <img alt='movie-img' src={`${details?.poster_path ? IMAGE_URL + IMAGE_SIZE_500 + details?.poster_path : NoPosterImg}`}
+                        className={`${details?.poster_path ? 'movie-img' : 'no-movie-img'}`} />
+                </div>
+
+                <div className="image-bottom-section">
+                    <div className="tags-section">
+                        {
+                            details?.genres.map(e => {
+                                return (
+                                    <h4 onClick={() => sendGenreId(e.id)} className='tag' style={{ color: 'white' }}>{e.name}</h4>
+                                )
+                            })
+                        }
+                    </div>
+                    <div className='time-section'>
+                        <p style={{ color: 'white' }}>
+                            {details?.runtime && timeFormatter(details.runtime) }
+                        </p>
+                    </div>
+                </div>
+
+
+
+                <div className='tagline-section'>
+                    <i className='tagline'>{details?.tagline}</i>
+                </div>
+
+                <div className="headline">
+                    <h4 style={{ color: 'white' }}>ÖZET</h4>
+                </div>
+
+                <div className="overview-section">
+                    <i className='overview'>{details?.overview}</i>
                 </div>
 
 
@@ -102,10 +177,10 @@ const MovieDetails: React.FC = () => {
                     }
                 </div>
 
-                <h2 className='baslik-video'>TRAILERS</h2>
+                <h2 className='baslik-video'>FRAGMAN</h2>
                 <div className='videos-section'>
                     {
-                        videos.filter(e=>e.type==="Trailer").map(x=>{
+                        videos.filter(e => e.type === "Trailer").map(x => {
                             return <VideoSection data={x} key={x.id} />
                         })
                         // videos.map(e=>{
@@ -113,17 +188,51 @@ const MovieDetails: React.FC = () => {
                         // })
                     }
                 </div>
+                <hr style={{ width: '85%', marginTop: '50px' }} />
 
-                <h2 className="baslik-recommendations">RECOMMENDATIONS</h2>
-                <div className="recommendations-section">
-                    {
-                        recommendations.map(e=>{
-                            return <Divs data={e} key={e.id}/>
-                        })
-                    }
+                <div className='actors-section'>
+                    <h2 className='baslik-video'>OYUNCULAR</h2>
+                    <div className="actors">
+                        {
+                            credits?.cast.map(e => {
+                                return (
+                                    <div className='actor-div'>
+                                        <img className='actors-img' src={e.profile_path ? IMAGE_URL + IMAGE_SIZE_500 + e.profile_path : NoPosterImg} />
+                                        <h3 style={{ color: 'white' }}>{e.name}</h3>
+                                        <h5 style={{ color: 'white' }}>{e.character}</h5>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
+
+
+
+
+                {
+                    newRecommendations.length !== 0 && (
+                        <>
+                            <div className="ust-bolum">
+                                <h1 style={{ color: 'white' }}>ÖNERİLENLER</h1>
+                                <Button onClick={() => navigate(`/recommendations/${params.id}`)} className='btn-show-all'>
+                                    <PlusOutlined />Tümünü Göster
+                                </Button>
+                            </div>
+                            <div className="recommendations-section">
+                                {
+                                    newRecommendations.map(e => {
+                                        return <Divs data={e} key={e.id} />;
+                                    })
+                                }
+                            </div>
+                        </>
+                    )
+                }
+                <FloatButton.BackTop style={{backgroundColor:'red'}} />
             </div>
         </div>
+
     )
 }
 

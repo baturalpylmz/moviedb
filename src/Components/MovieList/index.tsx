@@ -1,40 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
-import { getAxiosTrendMovies } from '../../Hooks';
-import { Detail } from '../../Types/Type';
-import { IMAGE_SIZE_500, IMAGE_URL } from '../../Hooks/Urls';
+import React from 'react'
+import { Detail } from '../../Types/Type'
+import { useNavigate } from 'react-router-dom'
+import { IMAGE_SIZE_500, IMAGE_URL } from '../../Hooks/Urls'
 import NoPosterImg from '../../Images/no-poster-image/no-poster.jpg'
+import './MovieList.scss'
 
-const Trends: React.FC = () => {
+interface Props {
+    data: Detail[],
+    baslik: string
+}
 
-    const params = useParams()
+const MovieList: React.FC<Props> = ({ data, baslik }) => {
+
     const navigate = useNavigate()
-    const [trends, setTrends] = useState<Detail[]>([])
-
-    const [gelenTime, setGelenTime] = useState<any>('')
 
     const clickedCard =(e:Detail)=>{
         navigate(`/moviedetail/${e.id}`)        
     }
 
-    useEffect(() => {
-        setGelenTime(params.time)
-        getAxiosTrendMovies(gelenTime).then(res => {
-            setTrends(res);
-        }).catch(error => {
-            console.log(error,'ALTI');
-        });
-    }, [gelenTime])
-    
     return (
         <div>
-            <div className='trends-section'>
-                <h1 style={{ color: 'white' }}>{`${gelenTime==='day' ? 'GÜNÜN TREND FİLMLERİ' : 'HAFTANIN TREND FİLMLERİ'}`}</h1>
+            <div className='movies-section'>
+                <h1 style={{ color: 'white' }}>{baslik}</h1>
 
                 <div className='cards-section'>
                     {
 
-                        trends.map(e => {
+                        data.map(e => {
                             return (
                                 <div key={e.id} className='card' onClick={() => clickedCard(e)}>
                                     <img className='poster-img' src={e.poster_path ? IMAGE_URL + IMAGE_SIZE_500 + e.poster_path : NoPosterImg} alt='poster-img' />
@@ -50,4 +42,4 @@ const Trends: React.FC = () => {
     )
 }
 
-export default Trends
+export default MovieList

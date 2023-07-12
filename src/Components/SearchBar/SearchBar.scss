@@ -4,7 +4,14 @@
     align-items: center;
     justify-content: center;
     height: 20vh;
-    background-color: black;
-    width: 100%;
     float: left;
+}
+
+.ant-input-search-button{
+    background-color: red;
+    cursor: default;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-btn-primary:not(:disabled):hover{
+    background-color: red;
 }
