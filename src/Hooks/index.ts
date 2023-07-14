@@ -44,10 +44,9 @@ export const getAxiosGenres = () =>{
 export const getAxiosCategory = (genre_id:number) =>{
     return axios.get(`${DISCOVER_URL+'&include_adult=false&include_video=false&language=en-US&page=1&with_genres='+genre_id}`)
     .then(res =>{ return res.data.results })
-} 
+}
 
-export const getAxiosFilter = (adult:boolean,video:boolean,language:string,releaseDateGte:string,releaseDateLte:string,checkeds:string) =>{
-    return axios.get(`${DISCOVER_URL+'&include_adult='+adult+'&include_video='+video+'&language='+language+
-    '&release_date.gte='+releaseDateGte+'&release_date.lte='+releaseDateLte+'&with_genres='+checkeds}`)
+export const getAxiosFilter = (path:string) =>{
+    return axios.get(`${DISCOVER_URL+path}`)
     .then(res => { return res.data.results})
 } 

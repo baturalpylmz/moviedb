@@ -65,11 +65,12 @@
         display: flex;
   
         .tag{
-          background-color: red;
-          border-radius: 10px;
+          background-color: rgb(198, 28, 28);
+          border-radius: 5px; 
           margin: 30px 5px 10px 5px;
-          padding: 4px;
+          padding: 4px 10px ;
           cursor: pointer;
+          font-weight: 500;
         }
       }
   
@@ -111,23 +112,25 @@
       justify-content: center;
       flex-direction: column;
       .overview{
-        color: white;
+        color: rgba(255, 255, 255, 0.888);
         width: 80%;
         display: flex;
         align-items: center;
         justify-content: center;
+        line-height: 30px;
       }
     }
   
     .site-statistic-demo-card {
       width: 100%;
-      padding: 30px;
+      padding: 30px 0;
       float: left;
       height: auto;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-evenly;
       flex-wrap: wrap;
+      gap: 10px;
     }
 
     .baslik-video{

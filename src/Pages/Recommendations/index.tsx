@@ -5,6 +5,7 @@ import { getAxiosRecommendations } from '../../Hooks'
 import { IMAGE_SIZE_500, IMAGE_URL } from '../../Hooks/Urls'
 import './Recommendations.scss'
 import NoPosterImg from '../../Images/no-poster-image/no-poster.jpg'
+import MovieList from '../../Components/MovieList'
 
 
 const Recommendations: React.FC = () => {
@@ -27,7 +28,8 @@ const Recommendations: React.FC = () => {
 
     return (
         <div>
-            <div className='rec-section'>
+            <MovieList data={recommendations} baslik='ALL RECOMMENDATIONS'/>
+            {/* <div className='rec-section'>
                 <h1 style={{ color: 'white' }}>ALL RECOMMENDATIONS</h1>
                 <div className='cards-section'>
                     {
@@ -42,7 +44,7 @@ const Recommendations: React.FC = () => {
                         })
                     }
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

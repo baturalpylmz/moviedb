@@ -58,7 +58,7 @@ const items: MenuProps['items'] = [
 
 return (
   <div className='navbar-section'>
-    <h1 style={{ color: 'white', userSelect: 'none' }}>MOVIE DB PROJECT</h1>
+    <h1 className='logo-baslik'>MOVIE DB PROJECT</h1>
     <div className="tabs">
       <div className='tab' onClick={() => navigate('/')}>Anasayfa</div>
       <div className='tab'>

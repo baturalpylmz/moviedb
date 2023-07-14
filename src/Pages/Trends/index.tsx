@@ -4,6 +4,7 @@ import { getAxiosTrendMovies } from '../../Hooks';
 import { Detail } from '../../Types/Type';
 import { IMAGE_SIZE_500, IMAGE_URL } from '../../Hooks/Urls';
 import NoPosterImg from '../../Images/no-poster-image/no-poster.jpg'
+import MovieList from '../../Components/MovieList';
 
 const Trends: React.FC = () => {
 
@@ -28,7 +29,8 @@ const Trends: React.FC = () => {
     
     return (
         <div>
-            <div className='trends-section'>
+            <MovieList data={trends} baslik={`${gelenTime==='day' ? 'GÜNÜN TREND FİLMLERİ' : 'HAFTANIN TREND FİLMLERİ'}`}/>
+            {/* <div className='trends-section'>
                 <h1 style={{ color: 'white' }}>{`${gelenTime==='day' ? 'GÜNÜN TREND FİLMLERİ' : 'HAFTANIN TREND FİLMLERİ'}`}</h1>
 
                 <div className='cards-section'>
@@ -45,7 +47,7 @@ const Trends: React.FC = () => {
                     }
                 </div>
                 <hr style={{ width: '85%' }} />
-            </div>
+            </div> */}
         </div>
     )
 }

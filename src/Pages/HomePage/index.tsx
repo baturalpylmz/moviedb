@@ -21,39 +21,25 @@ const HomePage: React.FC = () => {
   const [video, setVideo] = useState<boolean>(true)
   const [releaseDateGte, setReleaseDateGte] = useState<string>('')
   const [releaseDateLte, setReleaseDateLte] = useState<string>('')
-  const [language, setLanguage] = useState<string>('tr')
   const [checkeds, setCheckeds] = useState<string[]>([])
   const navigate= useNavigate()
 
   const {setFilteredData}  = useContext(Context)
-
-
-
-  // let lastCheckeds: string =''
-
-  // let stringCheckeds: string;
-  // let newStringCheckeds:string;
-
-  // const extractCheckeds = (data:string[]) =>{
-  //   data.map(el=>{
-  //     stringCheckeds=`${el}+'%7C'`
-  //     newStringCheckeds+=stringCheckeds
-  //   })
-  //   return newStringCheckeds
-  // }
-
-  // lastCheckeds=extractCheckeds(checkeds)
-
-  
-  
-  
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
-    getAxiosFilter(isAdult, video, language,releaseDateGte,releaseDateLte ,checkeds.join(',')).then(data => {
+    let path:string=`&include_adult=${isAdult}&include_video=${video}`
+    if(releaseDateGte)
+      path += `&release_date.gte=${releaseDateGte}` 
+    if(releaseDateLte)
+      path += `&release_date.lte=${releaseDateLte}`
+    if(checkeds)
+      path += `&with_genres=${checkeds.join(',')}`
+
+    getAxiosFilter(path).then(data => {
       setFilteredData(data)
        navigate('/filtered')
     }).catch(err => {
@@ -61,9 +47,11 @@ const HomePage: React.FC = () => {
     })
   };
 
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  
 
   useEffect(() => {
     getAxiosGenres().then(data => {
@@ -75,11 +63,14 @@ const HomePage: React.FC = () => {
 
 
   useEffect(() => {
-    searchAxiosMovie(inputValue).then(data => {
-      setSearchedList(data);
-    }).catch(error => {
-      console.error(error);
-    });
+    const timer:NodeJS.Timeout = setTimeout(() => {
+      searchAxiosMovie(inputValue).then(data => {
+        setSearchedList(data);
+      }).catch(error => {
+        console.error(error);
+      });
+    }, 1000);
+    return ()=>clearTimeout(timer)
   }, [inputValue])
 
   return (
@@ -104,8 +95,6 @@ const HomePage: React.FC = () => {
           setReleaseDateGte={setReleaseDateGte}
           releaseDateLte={releaseDateLte}
           setReleaseDateLte={setReleaseDateLte}
-          language={language}
-          setLanguage={setLanguage}
           checkeds={checkeds}
           setCheckeds={setCheckeds} />
       </>

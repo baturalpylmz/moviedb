@@ -6,6 +6,13 @@
     align-items: center;
     justify-content: space-around;
     border-bottom: 25px groove red;
+
+    .logo-baslik{
+        color: white;
+        user-select: none;
+        font-family: fantasy;
+        font-size: 45px;
+    }
     
 
     .tabs{
