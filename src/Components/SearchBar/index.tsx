@@ -34,10 +34,11 @@ const SearchBar: React.FC<Props>=({setInputValue,searchedList})=> {
     <div className='input-area'>
       {/* <Search className='input' size='large' placeholder="search a movie..." onSearch={onSearch} /> */}
       <AutoComplete
+
         style={{ width: 500 }}
         options={options}
         onSearch={handleSearch}>
-        <Input.Search size="large" placeholder="bir film ismi giriniz..." enterButton />
+        <Input style={{borderRadius:'5px'}} size="large" placeholder="bir film ismi giriniz..."  />
       </AutoComplete>
     </div>
   )

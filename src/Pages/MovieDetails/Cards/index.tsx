@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Card, Statistic } from 'antd';
-import './Cards.scss'
+import styles from './Cards.module.scss'
+
 
 interface Props{
     baslik:string,
@@ -11,12 +12,12 @@ interface Props{
 
 const Cards:React.FC<Props> = ({baslik,icon,yazi,suffix}) => {
     return (
-        <Card className='card'>
+        <Card className={styles.card}>
                 <Statistic
                   title={baslik}
                   value={yazi}
                   precision={2}
-                  valueStyle={{ color: 'white' ,backgroundColor:'black', fontWeight:'bold',cursor:'default'}}
+                  valueStyle={{ color: 'white' ,backgroundColor:'black',fontSize:'18px', fontWeight:'bold',cursor:'default'}}
                   prefix={icon}
                   suffix={suffix}
                 />

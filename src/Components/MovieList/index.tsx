@@ -30,7 +30,7 @@ const MovieList: React.FC<Props> = ({ data, baslik }) => {
                             return (
                                 <div key={e.id} className='card' onClick={() => clickedCard(e)}>
                                     <img className='poster-img' src={e.poster_path ? IMAGE_URL + IMAGE_SIZE_500 + e.poster_path : NoPosterImg} alt='poster-img' />
-                                    <h3 style={{ color: 'white', fontSize: '15px' }}>{e.original_title}</h3>
+                                    <h3 className='movie-title'>{e.original_title}</h3>
                                 </div>
                             )
                         })
