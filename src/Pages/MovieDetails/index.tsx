@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Router, useNavigate, useParams } from 'react-router-dom'
 import { getAxiosMovieDetails, getAxiosMovieCredits, getAxiosVideos, getAxiosRecommendations } from '../../Hooks'
 import { Detail, Credits, Videos } from '../../Types/Type';
@@ -12,6 +12,8 @@ import Divs from '../../Components/Divs';
 import NoPosterImg from '../../Images/no-poster-image/no-poster.jpg'
 import { Button, FloatButton } from 'antd';
 import { Tooltip } from 'react-tooltip'
+import { addFavourite, getSelectedFavourite, removeFavourite} from '../../Firebase/Firebase';
+import { useAuth } from '../../Context/AuthContext';
 
 const HeartSvg = () => (
     <svg width="2em" height="2em" fill="currentColor" viewBox="0 0 1024 1024">
@@ -19,24 +21,40 @@ const HeartSvg = () => (
     </svg>
 );
 
+interface FavouritesProps{
+    favouriteMovieId:number,
+    id:string
+}
+
 const HeartIcon = (props: Partial<CustomIconComponentProps>) => (
     <Icon component={HeartSvg} {...props} />
 );
 
 const MovieDetails: React.FC = () => {
+    const context = useAuth()
+
     const navigate = useNavigate()
     const params = useParams()
     const [details, setDetails] = useState<Detail>()
     const [credits, setCredits] = useState<Credits>()
     const [isClicked, setIsClicked] = useState<Boolean>(false)
     const [videos, setVideos] = useState<Videos[]>([])
-    const [recommendations, setRecommendations] = useState<Detail[]>([])
     
     const [newRecommendations, setNewRecommendations] = useState<Detail[]>([])
     const clickOnFav = () => {
-        setIsClicked(!isClicked)
-        if (isClicked) {
-            //add fav axiosu çalıştır
+        if(!context.user)
+                return navigate("/login")
+                setIsClicked(!isClicked)  
+    } 
+
+    const addOrDeleteFavourite =async()=>{
+        if(!isClicked){
+            if(context.user)
+                await addFavourite(details,context.user.uid)            
+        }
+        else{            
+            const favouriteMovieIds = await getSelectedFavourite(details?.id ? details.id : 0)
+            removeFavourite(favouriteMovieIds)           
         }
     }
 
@@ -118,8 +136,9 @@ const MovieDetails: React.FC = () => {
                     <h1 className='yazi'>{details?.original_title && details.original_title + ' (' + details.release_date.split('-')[0] + ')'}</h1>
                     <div onClick={clickOnFav}>
                         {
-                            <div>
-                                <HeartIcon data-tooltip-id='fav-tooltip'
+                            <div onClick={()=>addOrDeleteFavourite()}>
+                                <HeartIcon
+                                    data-tooltip-id='fav-tooltip'
                                     data-tooltip-content="Favorilere Ekle"
                                     style={{ color: isClicked ? 'red' : 'white', opacity: isClicked ? '' : '0.6', cursor: 'pointer', userSelect: 'none' }} />
                                 <Tooltip id='fav-tooltip' />

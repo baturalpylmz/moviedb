@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getAxiosList } from '../../Hooks'
 import { Detail } from '../../Types/Type'
 import { IMAGE_SIZE_1920, IMAGE_URL } from '../../Hooks/Urls'
 import './List.scss'
 import Navbar from '../../Components/Navbar'
+import { useAuth } from '../../Context/AuthContext'
 
 const List: React.FC = () => {
   const params = useParams()
@@ -14,6 +15,7 @@ const List: React.FC = () => {
   const clickedCard = (e: Detail) => {
     navigate(`/moviedetail/${e.id}`)
   }
+  const {user} = useAuth()
 
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const List: React.FC = () => {
   }
 
   return (<>
-    <Navbar />
+    <Navbar user={user}/>
     <div className='list-page'>
       <h1>{headerOfPage}</h1>
       <ul className="movieList">

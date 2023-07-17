@@ -8,6 +8,8 @@ import Recommendations from './Pages/Recommendations';
 import List from './Pages/List';
 import Categories from './Pages/Categories';
 import FilterPage from './Pages/FilterPage';
+import LoginPage from './Pages/LoginPage';
+import SignUpPage from './Pages/SignUpPage';
 
 
 const App:React.FC =()=> {
@@ -20,6 +22,8 @@ const App:React.FC =()=> {
       <Route path='/list/:typeOfList' element={<List/>} />
       <Route path='/category/:id' element={<Categories/>}/>
       <Route path='/filtered' element={<FilterPage/>}/>
+      <Route path='/login' element={<LoginPage/>} />
+      <Route path='/sign-up' element={<SignUpPage/>} />
     </Routes>
   );
 }

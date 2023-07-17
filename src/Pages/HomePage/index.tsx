@@ -8,6 +8,7 @@ import { FilterOutlined } from '@ant-design/icons';
 import './HomePage.scss'
 import ModalComponent from '../../Components/ModalComponent';
 import { Context } from '../../Context/GlobalContext';
+import { useAuth } from '../../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
@@ -25,6 +26,7 @@ const HomePage: React.FC = () => {
   const navigate= useNavigate()
 
   const {setFilteredData}  = useContext(Context)
+  const {user}  = useAuth()
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -75,7 +77,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar user={user}/>
       <div className="searchBarSection">
         <SearchBar setInputValue={setInputValue} searchedList={searchedList} />
         <FilterOutlined className='filterButton' onClick={() => showModal()} />
