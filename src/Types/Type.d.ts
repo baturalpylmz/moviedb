@@ -1,3 +1,5 @@
+import { User } from "firebase/auth"
+
 export interface Liste{
     title:string,
     id:number,
