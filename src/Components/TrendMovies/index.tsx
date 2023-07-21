@@ -38,7 +38,7 @@ const TrendMovies:React.FC<Props> = ({time_window}) => {
     <div className='trends-section'>
         <div className='top-section'>
             <h1 style={{color:'white'}}>{`${time_window==='day' ? 'GÜNÜN TREND FİLMLERİ' : 'HAFTANIN TREND FİLMLERİ'}`}</h1>   
-            <Button onClick={()=>navigate(`/trends/${time_window}`)} className='show-all-btn'>{<PlusOutlined />}Tümünü Görüntüle</Button>  
+            <Button onClick={()=>navigate(`/trends/${time_window}`)} className='show-all-btn'>{<PlusOutlined />}Tümünü Göster</Button>  
         </div> 
         <div className='cards-section'> 
         {

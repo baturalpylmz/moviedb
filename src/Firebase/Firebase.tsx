@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth"
-import { getFirestore, collection, getDoc, getDocs, addDoc, deleteDoc, doc ,query, where } from "firebase/firestore"
+import { getFirestore, collection, getDoc, getDocs, addDoc, deleteDoc, doc ,query, where, and } from "firebase/firestore"
 import { Detail } from "../Types/Type";
 
 const firebaseConfig = {
@@ -11,6 +11,12 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_ID
 };
+
+interface IFireStore {
+  userId:string,
+  movie:Detail
+}
+
 
 const app = initializeApp(firebaseConfig)
 const auth = getAuth()
@@ -34,27 +40,28 @@ export const logout = async () => {
 const db = getFirestore()
 
 const favRef = collection(db, "favourites")
+const rateRef = collection(db, "ratedMovies")
 
-export const getAllFavourites = async() => {
-    return getDocs(favRef)
-    .then((snapshot) => {
-      let favourites:any[] = []
+// export const getAllFavourites = async() => {
+//     return getDocs(favRef)
+//     .then((snapshot) => {
+//       let favourites:any[] = []
       
-      snapshot.docs.forEach((doc) => {
-        favourites.push({ ...doc.data(), id: doc.id })
-      })
-      return favourites
-    }).catch(err => {
-      console.log(err.message)
-    })  
-}
+//       snapshot.docs.forEach((doc) => {
+//         favourites.push({ ...doc.data(), id: doc.id })
+//       })
+//       return favourites
+//     }).catch(err => {
+//       console.log(err.message)
+//     })  
+// }
 
-export const getSelectedFavourite =async (movieId:number) => {
+export const getSelectedFavourite = async (movie:Detail | undefined) => {
   return getDocs(favRef)
   .then((snapshot) => {
     let favourites = ""
     snapshot.docs.forEach((doc) => {
-      if(doc.data().favouriteMovieId==movieId)
+      if(doc.data().movie.id==movie?.id)
         favourites=doc.id
     })
     return favourites
@@ -65,17 +72,51 @@ export const getSelectedFavourite =async (movieId:number) => {
 
 
 
-// export const queryData = async (id:number) => {
-//   const q = query(favRef, where("favouriteMovieId", "==", id));
-//   return getDocs(q)
-//   .then((snapshot) => {
-//     snapshot.docs.forEach((doc) => {
-//       console.log(doc.data())      
-//     })
-//   }).catch(err => {
-//     console.log(err.message)
-//   }) 
-// }
+export const queryData = async (movieDetail:Detail,uid:string) => {
+  const q = query(favRef, where("userId", "==", uid));
+
+  return getDocs(q)
+  .then((snapshot) => {
+    return !!snapshot.docs.find((doc)=> doc.data().movie.id === movieDetail?.id)
+  }).catch(err => {
+    return false
+  }) 
+}
+
+export const queryData2 = async (movieDetail:Detail,uid:string) => {
+  const q = query(favRef, where("userId", "==", uid));
+  let isClicked=false
+  return getDocs(q)
+  .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      if(doc.data().movie.id==movieDetail?.id)
+        isClicked=true
+    })
+    return isClicked
+  }).catch(err => {
+    return false
+  }) 
+}
+
+
+
+export const getAllFavourites = async (uid:string) => {
+  const q = query(favRef, where("userId", "==", uid));
+
+  let favourites:any[] = []
+
+  return getDocs(q)
+  .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+        favourites.push({...doc.data(), id: doc.id })
+    })
+    return favourites
+  }).catch(err => {
+    console.log(err.message)
+    return []
+  }) 
+}
+
 
 
 export const addFavourite = async (movieDetail: Detail | undefined ,uid:string) => {
@@ -85,12 +126,18 @@ export const addFavourite = async (movieDetail: Detail | undefined ,uid:string) 
   })
 }
 
+// export const rateMovie = async (movieDetail: Detail | undefined ,uid:string,rated:number) => {
+//   await addDoc(rateRef, {
+//     movie:movieDetail,
+//     userId: uid,
+//     rate:rated
+//   })
+// }
+
 export const removeFavourite = async (id: any) => {
   const delRef = doc(db,'favourites',id)
     await deleteDoc(delRef)
 }
-
-
 
 
 export default app  

@@ -11,7 +11,6 @@ interface Props {
 }
 
 const MovieList: React.FC<Props> = ({ data, baslik }) => {
-
     const navigate = useNavigate()
 
     const clickedCard =(e:Detail)=>{
@@ -22,10 +21,8 @@ const MovieList: React.FC<Props> = ({ data, baslik }) => {
         <div>
             <div className='movies-section'>
                 <h1 style={{ color: 'white' }}>{baslik}</h1>
-
                 <div className='cards-section'>
                     {
-
                         data.map(e => {
                             return (
                                 <div key={e.id} className='card' onClick={() => clickedCard(e)}>
@@ -41,5 +38,4 @@ const MovieList: React.FC<Props> = ({ data, baslik }) => {
         </div>
     )
 }
-
 export default MovieList

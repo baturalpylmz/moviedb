@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button, Form, Input, message } from 'antd';
 import './LoginPage.scss'
 import logoImage from '../../Images/logo/logo.png'
@@ -65,6 +65,8 @@ const LoginPage: React.FC = () => {
         </Form.Item>
       </Form>
       <p>Hesabınız yok mu? <Link to={'/sign-up'}>Hesap Oluşturun</Link></p>
+      <hr style={{ width: '25%' }} />
+      <p><Link to={'/'}>Misafir olarak devam et</Link></p>
     </div>
 
   )
