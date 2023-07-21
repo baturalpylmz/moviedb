@@ -10,9 +10,15 @@ import Categories from './Pages/Categories';
 import FilterPage from './Pages/FilterPage';
 import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
+import Favourites from './Pages/Favourites';
+import { useAuth } from './Context/AuthContext';
+import ErrorPage from './Pages/ErrorPage';
 
 
 const App:React.FC =()=> {
+
+  const {user}  = useAuth()
+
   return (
     <Routes>
       <Route path='/' element={<HomePage/>} />
@@ -24,6 +30,7 @@ const App:React.FC =()=> {
       <Route path='/filtered' element={<FilterPage/>}/>
       <Route path='/login' element={<LoginPage/>} />
       <Route path='/sign-up' element={<SignUpPage/>} />
+      <Route path='/favourites' element={ user ? <Favourites/> : <ErrorPage/> } />
     </Routes>
   );
 }

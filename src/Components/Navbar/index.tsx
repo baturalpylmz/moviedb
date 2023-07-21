@@ -81,11 +81,13 @@ const Navbar: React.FC<Props>= ({user}) => {
             </a>
           </Dropdown>
         </div>
-        <div className='tab'>Favorilerim</div>
+        {
+          user && <div className='tab' onClick={() =>user ? navigate('/favourites') : navigate("/login")}>Favorilerim</div>
+        }
       </div>
 
       {
-        user ? <DropdownComponent user={user}/>:
+        user && localStorage.getItem("userData") ? <DropdownComponent user={user}/>:
         <Button onClick={() => goToLoginPage()} className='log-in-btn'>Giriş Yap</Button>
       }
       {/* <Button onClick={() => goToLoginPage()} className='log-in-btn'>Çıkış Yap</Button> */}
