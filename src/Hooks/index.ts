@@ -31,8 +31,8 @@ export const getAxiosRecommendations = (id:string) =>{
     .then(res =>{ return res.data.results })
 } 
 
-export const getAxiosList = (listOfType:string) =>{
-    return axios.get(`${BASE_URL+'movie/'+listOfType+'?'+API_KEY}`)
+export const getAxiosList = (listOfType:string,page:number) =>{
+    return axios.get(`${BASE_URL+'movie/'+listOfType+'?'+API_KEY+'&page='+page}`)
     .then(res=> { return res.data.results})
 }
 

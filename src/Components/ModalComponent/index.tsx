@@ -52,7 +52,7 @@ const ModalComponent: React.FC<Props> = ({
         if (e.target.checked)
             setCheckeds([...checkeds, e.target.value])
         else
-            setCheckeds(checkeds.filter(checked => checked !== e.target.value))
+            setCheckeds(checkeds.filter(checked => checked !== e.target.value))            
     }
 
     const changedAdult = (e: RadioChangeEvent) => {
