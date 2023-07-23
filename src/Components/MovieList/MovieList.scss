@@ -8,6 +8,12 @@
     float: left;
     background-color: black;
 
+    .top-section-favourites{
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
     .cards-section{
         display: flex;
         align-items: center;

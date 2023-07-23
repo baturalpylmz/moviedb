@@ -14,7 +14,7 @@ const LoginModal: React.FC<Props> = ({ isLoginModalOpen,setIsLoginModalOpen }) =
   return (
     <div>
       <Modal
-        className="modalStyle"
+        className="modalStyle2"
         title=""
         open={isLoginModalOpen}
         okButtonProps={{ style: { display: "none" } }}

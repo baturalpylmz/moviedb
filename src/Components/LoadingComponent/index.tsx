@@ -1,9 +1,7 @@
 import React from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import './LoadingComponent.scss'
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
-const LoadingComponent: React.FC = () => <Spin indicator={antIcon} />;
+const LoadingComponent: React.FC = () => <div className='loadingComponent'><Spin size='large' /></div>;
 
 export default LoadingComponent;

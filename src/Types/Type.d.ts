@@ -83,3 +83,9 @@ export interface GenresInterface {
     id:number,
     name:string
 }
+
+export interface IFavouriteData {
+    id: string;
+    userId: string;
+    movie: Detail;
+  }

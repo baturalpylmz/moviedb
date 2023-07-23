@@ -82,7 +82,8 @@ const Navbar: React.FC<Props>= ({user}) => {
           </Dropdown>
         </div>
         {
-          user && <div className='tab' onClick={() =>user ? navigate('/favourites') : navigate("/login")}>Favorilerim</div>
+          user && localStorage.getItem("userData") ? <div className='tab' onClick={() =>user ? navigate('/favourites') : navigate("/login")}>Favorilerim</div>
+          : <div></div>
         }
       </div>
 
