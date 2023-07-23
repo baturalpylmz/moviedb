@@ -21,7 +21,7 @@ const App:React.FC =()=> {
 
   return (
     <Routes>
-      <Route path='' element={<HomePage/>} />
+      <Route path='/' element={<HomePage/>} />
       <Route path='/moviedetail/:id' element={<MovieDetail/>} />
       <Route path='/trends/:time' element={<Trends/>} />
       <Route path='/recommendations/:id' element={<Recommendations/>} />
