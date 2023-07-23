@@ -6,6 +6,7 @@ import { IMAGE_SIZE_1920, IMAGE_URL } from '../../Hooks/Urls'
 import './List.scss'
 import Navbar from '../../Components/Navbar'
 import { useAuth } from '../../Context/AuthContext'
+import { Button } from 'antd'
 
 const List: React.FC = () => {
   const params = useParams()
@@ -15,18 +16,50 @@ const List: React.FC = () => {
   const clickedCard = (e: Detail) => {
     navigate(`/moviedetail/${e.id}`)
   }
-  const {user} = useAuth()
+  const {user} = useAuth()  
+
+  const [pagination,setPagination] = useState<number>(1)
+  const [isLoading,setIsLoading] = useState<boolean>(false)
+
+
+  const scrollPage =(pageCount:number)=>{
+    setPagination(pageCount+1)
+  }
+
+  const handleScroll = () => {
+    // const { scrollY, innerHeight } = window;
+    // const offsetHeight = document.documentElement.offsetHeight;
+
+    // const atBottom = scrollY + innerHeight >= offsetHeight;
+
+    const { bottom } = document.documentElement.getBoundingClientRect();
+    const atBottom =bottom-1 <= window.innerHeight
+
+    if (atBottom) {
+      scrollPage(pagination); 
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [pagination]);
+
 
 
   useEffect(() => {
     if (params.typeOfList !== undefined) {
-      getAxiosList(params.typeOfList).then(data => {
-        setList(data)
+      setIsLoading(true)
+      getAxiosList(params.typeOfList,pagination).then(data => {
+        setList([...list,...data])
       }).catch(error => {
         console.log(error);
       })
     }
-  }, [params])
+    setIsLoading(false)
+  }, [params,pagination])
 
   let headerOfPage;
   switch (params.typeOfList) {
@@ -61,6 +94,7 @@ const List: React.FC = () => {
           })
         }
       </ul>
+      {isLoading && <p style={{color:'white'}}>Loading...</p>}
     </div>
   </>
   )
