@@ -44,11 +44,6 @@ const HeartSvg = () => (
   </svg>
 );
 
-interface FavouritesProps {
-  favouriteMovieId: number;
-  id: string;
-}
-
 const HeartIcon = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={HeartSvg} {...props} />
 );
@@ -378,7 +373,7 @@ const MovieDetails: React.FC = () => {
           </>
         )}
         <div className="comment-section">
-          <Comment />
+          <Comment details={details} />
         </div>
 
         <FloatButton.BackTop style={{ backgroundColor: "red" }} />

@@ -1,48 +1,91 @@
 import TextArea from "antd/es/input/TextArea";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Comment.scss";
-import { Button } from "antd";
+import { Button, Spin, message } from "antd";
+import { useAuth } from "../../Context/AuthContext";
+import { addComment, getAllComments } from "../../Firebase/Firebase";
+import { Detail } from "../../Types/Type";
+import { User } from "firebase/auth";
+import LoadingComponent from "../LoadingComponent";
 
-const Comment: React.FC = () => {
+interface Props {
+  details: Detail | undefined;
+}
+
+interface IComments {
+  comment: string;
+  movie: Detail;
+  user: User;
+}
+
+const Comment: React.FC<Props> = ({ details }) => {
+  const [textValue, setTextValue] = useState<string>("");
+  const [comments, setComments] = useState<IComments[]>([]);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const context = useAuth();
+
+  const setComment = async () => {
+    try {
+      await addComment(details, context.user, textValue);
+      message.success("Yorumunuz başarılı bir şekilde eklendi");
+      setTextValue("");
+
+      // setComments(await getAllComments(context.user, details));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getFavourites = async () => {
+    if (context.user !== undefined && details !== undefined)
+      setComments(await getAllComments(context.user, details));
+  };
+
+  useEffect(() => {
+    getFavourites();
+  }, [context.user,details]);
+
   return (
     <div className="comments-section">
+      <div
+        style={{
+          width: "80%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <h1 style={{ color: "white" }}>YORUMLAR</h1>
+      </div>
+      {context.user && localStorage.getItem("userData") && (
         <div className="text-area-section">
-            <TextArea className="text-area" placeholder="Bir yorum yazınız..." />
-            <Button size="large">Gönder</Button>
+          <TextArea
+            onChange={(e) => setTextValue(e.target.value)}
+            value={textValue}
+            className="text-area"
+            placeholder="Bir yorum yazınız..."
+          />
+          <Button onClick={setComment} size="large">
+            Gönder
+          </Button>
         </div>
-        <div className="comments-area">
-          <div className="comment">
-            <h5 style={{ color: "white" }}>Baturalp Yılmaz</h5>
-            <i style={{ color: "white" }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-              maiores eligendi esse ipsum a odit, nihil quo odio pariatur
-              voluptate, ex modi numquam saepe porro ducimus corporis cum
-              laudantium eaque.
-            </i>
-          </div>
-          <hr/>
-
-          <div className="comment">
-            <h5 style={{ color: "white" }}>Batuhan Pehlivanoğlu</h5>
-            <i style={{ color: "white" }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-              maiores eligendi esse ipsum a odit, nihil quo odio pariatur
-              voluptate, ex modi numquam saepe porro ducimus corporis cum
-              laudantium eaque.
-            </i>
-          </div>
-          <hr/>
-          <div className="comment">
-            <h5 style={{ color: "white" }}>Safa Gençtorun</h5>
-            <i style={{ color: "white" }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-              maiores eligendi esse ipsum a odit, nihil quo odio pariatur
-              voluptate, ex modi numquam saepe porro ducimus corporis cum
-              laudantium eaque.
-            </i>    
-          </div>
-          <hr/>
-        </div>
+      )}
+      <div className="comments-area">
+        {comments && comments.length > 0 ?
+          comments.map((cmmnt) => {
+            return (
+              <>
+                <div className="comment">
+                  <h5 style={{ color: "white" }}>{cmmnt.user.email}</h5>
+                  <i style={{ color: "white" }}>{cmmnt.comment}</i>
+                </div>
+                <hr />
+              </>
+            );
+          }) : <h1>YÜKLENİYOR...</h1>}
+      </div>
     </div>
   );
 };
