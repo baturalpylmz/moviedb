@@ -111,7 +111,7 @@ export const queryData2 = async (movieDetail: Detail, uid: string) => {
 
 export const getAllFavourites = async (uid: string) => {
   const q = query(favRef, where("userId", "==", uid));
-
+  
   let favourites: any[] = [];
 
   return getDocs(q)

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getAxiosMovieDetails,
@@ -16,8 +16,7 @@ import Icon, {
   WarningOutlined,
   SafetyOutlined,
   VideoCameraOutlined,
-  PlusOutlined,
-  DownOutlined,
+  PlusOutlined
 } from "@ant-design/icons";
 import "./MovieDetail.scss";
 import Cards from "./Cards";
@@ -25,7 +24,7 @@ import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/
 import VideoSection from "./VideoSection";
 import Divs from "../../Components/Divs";
 import NoPosterImg from "../../Images/no-poster-image/no-poster.jpg";
-import { Button, FloatButton, Modal, Rate, message } from "antd";
+import { Button, FloatButton, message } from "antd";
 import { Tooltip } from "react-tooltip";
 import {
   addFavourite,
@@ -65,11 +64,7 @@ const MovieDetails: React.FC = () => {
 
   const [newRecommendations, setNewRecommendations] = useState<Detail[]>([]);
   const clickOnFav = async () => {
-    if (!context.user){
-      showLoginModal()
-      // return navigate('/login')
-    }
-    else {
+    if (context.user && localStorage.getItem("userData")){
       if (!isClicked) {
         await addFavourite(details, context.user.uid);
         message.success("Favorilere eklendi");
@@ -79,6 +74,9 @@ const MovieDetails: React.FC = () => {
         message.info("Favorilerden kaldırıldı");
       }
       setIsClicked(!isClicked);
+    }
+    else {
+      showLoginModal()
     }
   };
 

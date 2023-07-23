@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getAxiosCategory, getAxiosGenres } from '../../Hooks'
 import { Detail, GenresInterface } from '../../Types/Type'
-import { IMAGE_SIZE_1920, IMAGE_SIZE_500, IMAGE_URL } from '../../Hooks/Urls'
+import { IMAGE_SIZE_500, IMAGE_URL } from '../../Hooks/Urls'
 import './Categories.scss'
-import { ArrowLeftOutlined, HomeOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Tooltip } from 'react-tooltip'
 
 const Categories = () => {
@@ -53,10 +53,6 @@ const Categories = () => {
                             data-tooltip-content="Önceki Sayfaya Dön"
                             onClick={() => { navigate(-1) }} style={{ color: 'white', fontSize: '40px', cursor: 'pointer', paddingRight: '50px' }} />
                         <Tooltip id="back-tooltip" />
-                        <HomeOutlined data-tooltip-id='home-tooltip'
-                            data-tooltip-content="Anasayfaya Dön"
-                            onClick={() => { navigate('/') }} style={{ color: 'white', fontSize: '40px', cursor: 'pointer' }} />
-                        <Tooltip id="home-tooltip" />
                     </div>
                     <div className="category-page-top-section-right">
                         <h1>{genreName}</h1>
