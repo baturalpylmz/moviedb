@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  User,
+  User
 } from "firebase/auth";
 import {
   getFirestore,
@@ -15,8 +15,7 @@ import {
   deleteDoc,
   doc,
   query,
-  where,
-  getDocFromCache,
+  where
 } from "firebase/firestore";
 import { Detail } from "../Types/Type";
 
@@ -111,7 +110,7 @@ export const queryData2 = async (movieDetail: Detail, uid: string) => {
 
 export const getAllFavourites = async (uid: string) => {
   const q = query(favRef, where("userId", "==", uid));
-  
+
   let favourites: any[] = [];
 
   return getDocs(q)
@@ -127,15 +126,8 @@ export const getAllFavourites = async (uid: string) => {
     });
 };
 
-export const getAllComments = (
-  user: User,
-  movieDetail: Detail | undefined
-) => {
-  const q = query(
-    commentRef,
-    where("user.uid", "==", user.uid),
-    where("movie.id", "==", movieDetail?.id)
-  );
+export const getAllComments = (movieDetail: Detail | undefined) => {
+  const q = query(commentRef, where("movie.id", "==", movieDetail?.id));
 
   let comments: any[] = [];
 
@@ -163,28 +155,24 @@ export const addFavourite = async (
 };
 
 export const addComment = async (
-  movieDetail: Detail | undefined,
-  userDetail: User,
+  movieDetail: Detail,
+  user: User,
   comment: string
 ) => {
   await addDoc(commentRef, {
     movie: movieDetail,
-    user: userDetail,
-    comment: comment,
+    user: user,
+    comment: comment
   });
 };
-
-// export const rateMovie = async (movieDetail: Detail | undefined ,uid:string,rated:number) => {
-//   await addDoc(rateRef, {
-//     movie:movieDetail,
-//     userId: uid,
-//     rate:rated
-//   })
-// }
 
 export const removeFavourite = async (id: any) => {
   const delRef = doc(db, "favourites", id);
   await deleteDoc(delRef);
 };
+
+
+
+
 
 export default app;

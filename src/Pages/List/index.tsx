@@ -46,7 +46,7 @@ const List: React.FC = () => {
     if (params.typeOfList !== undefined) {
       setIsLoading(true);
       try {
-        getAxiosList(params.typeOfList, pagination).then((data) => {
+        getAxiosList(params.typeOfList,pagination).then((data) => {
           setList([...list, ...data]);
           setIsLoadingPage(false);
           setIsLoading(false);

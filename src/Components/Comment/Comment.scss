@@ -18,6 +18,16 @@
         .comment{
             width: 100%;
             border-radius: 10px;
+            .comment-top-section{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                .user-icon-comment{
+                    width: 40px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+            }
         }
     }
     

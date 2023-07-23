@@ -35,7 +35,11 @@ const Navbar: React.FC<Props>= ({user}) => {
     {
       key: '1',
       label: (
-        <p onClick={() => navigate('/list/popular')}>
+        <p onClick={() =>{
+          navigate('/list/popular')
+          window.location.reload()
+        }
+        }>
           Popüler
         </p>
       ),
@@ -43,7 +47,11 @@ const Navbar: React.FC<Props>= ({user}) => {
     {
       key: '2',
       label: (
-        <p onClick={() => navigate('/list/now_playing')}>
+        <p onClick={() =>{
+          navigate('/list/now_playing')
+          window.location.reload()
+        }
+        }>  
           Gösterimdekiler
         </p>
       ),
@@ -51,7 +59,11 @@ const Navbar: React.FC<Props>= ({user}) => {
     {
       key: '3',
       label: (
-        <p onClick={() => navigate('/list/upcoming')}>
+        <p onClick={() => {
+          navigate('/list/upcoming');
+          window.location.reload()
+        }
+        }>
           Yakında
         </p>
       ),
@@ -59,7 +71,11 @@ const Navbar: React.FC<Props>= ({user}) => {
     {
       key: '4',
       label: (
-        <p onClick={() => navigate('/list/top_rated')}>
+        <p onClick={() =>{
+          navigate('/list/top_rated')
+          window.location.reload()
+        }
+        }>
           En Fazla Oy Alanlar
         </p>
       ),
@@ -68,7 +84,7 @@ const Navbar: React.FC<Props>= ({user}) => {
 
   return (
     <div className='navbar-section'>
-      <h1 className='logo-baslik'>MOVIE DB PROJECT</h1>
+      <h1 className='logo-baslik' onClick={() => navigate('/')}>MOVIE DB PROJECT</h1>
       <div className="tabs">
         <div className='tab' onClick={() => navigate('/')}>Anasayfa</div>
         <div className='tab'>

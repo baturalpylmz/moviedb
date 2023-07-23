@@ -1,6 +1,6 @@
 import React from 'react';
-import { DownOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons'
-import { Button, Dropdown, MenuProps, Space, message } from 'antd';
+import { LogoutOutlined } from '@ant-design/icons'
+import { Dropdown, MenuProps, message } from 'antd';
 import { logout } from '../../Firebase/Firebase';
 import { useNavigate } from 'react-router-dom';
 import { User } from 'firebase/auth';
@@ -13,13 +13,8 @@ interface Props {
 
 const items: MenuProps['items'] = [
   {
-    label: 'Kullanıcı Bilgileri',
-    key: '1',
-    icon: <UserOutlined />,
-  },
-  {
     label: 'Çıkış Yap',
-    key: '2',
+    key: '1',
     icon: <LogoutOutlined />,
   }
 ];
@@ -29,7 +24,7 @@ const DropdownComponent: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate()
 
   const handleMenuClick: MenuProps['onClick'] = async (e) => {
-    if (e.key == "2") {
+    if (e.key == "1") {
       if (window.confirm("Çıkış yapmak istediğinize emin misiniz?")) {
         try {
           await logout()
