@@ -5,8 +5,8 @@ import { Button, Spin, message } from "antd";
 import { useAuth } from "../../Context/AuthContext";
 import { addComment, getAllComments } from "../../Firebase/Firebase";
 import { Detail } from "../../Types/Type";
-import { User } from "firebase/auth";
 import LoadingComponent from "../LoadingComponent";
+import { User } from "firebase/auth";
 
 interface Props {
   details: Detail | undefined;
@@ -15,37 +15,44 @@ interface Props {
 interface IComments {
   comment: string;
   movie: Detail;
-  user: User;
+  user:User;
 }
 
 const Comment: React.FC<Props> = ({ details }) => {
   const [textValue, setTextValue] = useState<string>("");
-  const [comments, setComments] = useState<IComments[]>([]);
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
+  const [datas, setDatas] = useState<IComments[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const context = useAuth();
 
   const setComment = async () => {
-    try {
-      await addComment(details, context.user, textValue);
-      message.success("Yorumunuz başarılı bir şekilde eklendi");
-      setTextValue("");
-
-      // setComments(await getAllComments(context.user, details));
-    } catch (error) {
-      console.log(error);
+    if(details && context.user && textValue){
+      try {     
+        await addComment(details, context.user, textValue);
+        setTextValue("");
+        window.location.reload()
+        message.success("Yorumunuz başarılı bir şekilde eklendi");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
-  const getFavourites = async () => {
-    if (context.user !== undefined && details !== undefined)
-      setComments(await getAllComments(context.user, details));
+  const getComments = async () => {
+    if(details){
+      setIsLoading(true);
+      try {
+        const fetchedComments:IComments[] = await getAllComments(details);
+        setDatas(fetchedComments)
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   useEffect(() => {
-    getFavourites();
-  }, [context.user,details]);
+    getComments();
+  }, [context.user, details]);
 
   return (
     <div className="comments-section">
@@ -73,18 +80,24 @@ const Comment: React.FC<Props> = ({ details }) => {
         </div>
       )}
       <div className="comments-area">
-        {comments && comments.length > 0 ?
-          comments.map((cmmnt) => {
+        {isLoading ? (
+          <LoadingComponent />
+        ) : (
+            datas.map((data) => {
             return (
               <>
                 <div className="comment">
-                  <h5 style={{ color: "white" }}>{cmmnt.user.email}</h5>
-                  <i style={{ color: "white" }}>{cmmnt.comment}</i>
+                  <div className="comment-top-section">
+                    <img className='user-icon-comment' src={data.user.photoURL ? data.user.photoURL : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} />
+                    <h5 style={{ color: "white" }}>{data.user.email}</h5>
+                  </div>
+                  <i style={{ color: "white" }}>{data.comment}</i>
                 </div>
                 <hr />
               </>
             );
-          }) : <h1>YÜKLENİYOR...</h1>}
+          })
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 400px;
+    height: 500px;
     background-color: white;
     .modals{
         width: 100%;
@@ -14,6 +14,10 @@
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 10px;
+        }
+
+        .sorting-select{
+            width: 25vw;
         }
     }
 }

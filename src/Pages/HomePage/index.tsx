@@ -23,13 +23,14 @@ const HomePage: React.FC = () => {
   const [releaseDateGte, setReleaseDateGte] = useState<string>("");
   const [releaseDateLte, setReleaseDateLte] = useState<string>("");
   const [checkeds, setCheckeds] = useState<string[]>([]);
+  const [sortingBy,setSortingBy] = useState<string>("")
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
   const { setFilteredData } = useContext(Context);
-  const { user } = useAuth();
+  const context= useAuth();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -40,6 +41,7 @@ const HomePage: React.FC = () => {
     if (releaseDateGte) path += `&release_date.gte=${releaseDateGte}`;
     if (releaseDateLte) path += `&release_date.lte=${releaseDateLte}`;
     if (checkeds) path += `&with_genres=${checkeds.join(",")}`;
+    if (sortingBy!=="") path+= `&sort_by=${sortingBy}`
 
     getAxiosFilter(path)
       .then((data) => {
@@ -86,7 +88,7 @@ const HomePage: React.FC = () => {
         <LoadingComponent />
       ) : (
         <>
-          <Navbar user={user} />
+          <Navbar user={context.user} />
           <div className="searchBarSection">
             <SearchBar
               setInputValue={setInputValue}
@@ -114,6 +116,8 @@ const HomePage: React.FC = () => {
               setReleaseDateLte={setReleaseDateLte}
               checkeds={checkeds}
               setCheckeds={setCheckeds}
+              sortingBy={sortingBy}
+              setSortingBy={setSortingBy}
             />
           </>
           <TrendMovies time_window={"day"} />

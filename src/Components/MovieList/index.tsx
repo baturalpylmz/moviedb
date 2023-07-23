@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Detail } from "../../Types/Type";
 import { useNavigate } from "react-router-dom";
 import { IMAGE_SIZE_500, IMAGE_URL } from "../../Hooks/Urls";
 import NoPosterImg from "../../Images/no-poster-image/no-poster.jpg";
 import "./MovieList.scss";
-import { HomeOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 
 interface Props {
